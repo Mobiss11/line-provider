@@ -47,7 +47,7 @@ line_provider/
 ### Локальная разработка
 ```bash
 # Клонирование репозитория
-git clone https://github.com/your-repo/line-provider.git
+git clone https://github.com/Mobiss11/line-provider
 cd line-provider
 
 # Создание и активация виртуального окружения
