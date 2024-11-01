@@ -8,24 +8,18 @@ services:
     environment:
       - APP_NAME=Line Provider Service
       - DEBUG=true
-      - REDIS_URL=redis://redis:6379/0
+      - REDIS_URL=redis://127.0.0.1:6378/0
     depends_on:
-      - redis
-    networks:
-      - app-network
+      - redis-line
+    network_mode: host
 
-  redis:
+  redis-line:
     image: redis:6
     ports:
-      - "6379:6379"
+      - "6378:6379"
     volumes:
       - redis-data:/data
-    networks:
-      - app-network
 
 volumes:
   redis-data:
 
-networks:
-  app-network:
-    driver: bridge

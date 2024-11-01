@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 from datetime import datetime
 
 from app.storage.redis import RedisStorage
@@ -31,7 +31,7 @@ class EventService:
     async def get_event(self, event_id: str) -> Optional[Event]:
         return await self.storage.get_event(event_id)
 
-    async def get_all_events(self) -> List[Event]:
+    async def get_all_events(self) -> list[Event]:
         return await self.storage.get_all_events()
 
     async def update_event_status(self, event_id: str, status: EventStatus) -> Optional[Event]:

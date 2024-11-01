@@ -65,6 +65,9 @@ poetry install
 
 ### Запуск через Docker
 ```bash
+# Сборка
+docker build -t line-provider:latest .
+
 # Сборка и запуск
 docker-compose up --build
 
@@ -81,7 +84,7 @@ docker-compose down
 ```env
 APP_NAME=Line Provider Service
 DEBUG=True
-REDIS_URL=redis://redis:6379/0
+REDIS_URL=redis://127.0.0.1:6378/0
 EVENT_EXTRA_TTL=604800
 CALLBACK_TTL=86400
 ```

@@ -2,11 +2,12 @@
 from typing import Dict, Optional
 from app.models.events import Event
 from redis import asyncio as aioredis
+from app.core.config import settings
 
 
 class RedisStorage:
-    def __init__(self, redis_url: str = "redis://redis:6379/0"):
-        self.redis = aioredis.from_url(redis_url)
+    def __init__(self):
+        self.redis = aioredis.from_url(settings.REDIS_URL)
         self.EVENT_PREFIX = "event:"
 
     async def store_event(self, event: Event) -> None:
@@ -22,9 +23,9 @@ class RedisStorage:
             return Event.model_validate_json(event_data)
         return None
 
-    async def get_all_events(self) -> Dict[str, Event]:
+    async def get_all_events(self) -> list[Event]:
         """Получение всех событий"""
-        events = {}
+        events = []
         # Используем keys вместо scan_iter для простоты
         keys = await self.redis.keys(f"{self.EVENT_PREFIX}*")
 
@@ -32,6 +33,6 @@ class RedisStorage:
             event_data = await self.redis.get(key)
             if event_data:
                 event = Event.model_validate_json(event_data)
-                events[event.event_id] = event
+                events.append(event)
 
         return events

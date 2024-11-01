@@ -27,6 +27,22 @@ async def get_events(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/events/{event_id}", response_model=EventResponse)
+async def get_events(
+        event_id: str,
+        service: EventService = Depends(get_event_service),
+):
+    try:
+        event = await service.get_event(event_id)
+        return EventResponse(
+            status=StatusEnum.SUCCESS,
+            message="Событие успешно получено",
+            data=event
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.post("/events", response_model=EventResponse)
 async def create_event(
         event: Event,
